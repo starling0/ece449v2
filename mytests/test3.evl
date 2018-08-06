@@ -1,0 +1,4 @@
+// a module checking wires of width = 1
+module wire;
+    wire s0, s1;
+endmodule
