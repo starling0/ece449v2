@@ -3,9 +3,9 @@
 #include <string>
 #include <list>
 
-#include "lex.h"
-#include "syn.h"
-#include "net.h"
+#include "lex/lex.hpp"
+#include "syn/syn.hpp"
+//#include "net.h"
 
 #define CONSOLE std::cout
 
@@ -31,7 +31,6 @@ int main(int argc, char *argv[]){
     }
     //std::cout << "Storing Complete..." << std::endl;
 
-/*
     //std::cout << "Oganizing Statements into Modules..." << std::endl;
     evl_modules mods;
     if(!mods.group(tokens)) {
@@ -47,6 +46,7 @@ int main(int argc, char *argv[]){
     }
     //std::cout << "Storing Complete" << std::endl;
 
+/*
     netlist net;
     net.create(mods.front());
 

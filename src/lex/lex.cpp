@@ -6,7 +6,7 @@
 
 #include "lex.hpp"
 
-#define SPACE_CHAR "\t\r\n"
+#define SPACE_CHAR " \t\r\n"
 #define SINGLE_CHAR "()[]:;,"
 #define SLASH '/'
 #define UNDERSCORE '_'
@@ -16,8 +16,8 @@ bool evl_tokens::extract_from_line(
     std::string line,
     int line_no) {
 
-    //char SPACE_CHAR[] = " \t\r\n";
-    //char SINGLE_CHAR[] = "()[]:;,";
+    char SPACE_CH[] = SPACE_CHAR;
+    char SINGLE_CH[] = SINGLE_CHAR;
 
     for (size_t i = 0; i < line.size();) {
         if (line[i] == SLASH) { //comments`
@@ -28,10 +28,10 @@ bool evl_tokens::extract_from_line(
                 return false;
             }
             break; // skip the rest of the line by exiting the loop
-        } else if (strchr(SPACE_CHAR, line[i])) { //spaces
+        } else if (strchr(SPACE_CH, line[i])) { //spaces
             ++i; // skip this space character
             continue;
-        } else if (strchr(SINGLE_CHAR, line[i])) { //SINGLES
+        } else if (strchr(SINGLE_CH, line[i])) { //SINGLES
             evl_token *token = new evl_token(
                 evl_token::SINGLE,
                 std::string(1, line[i]),
