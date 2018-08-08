@@ -353,7 +353,7 @@ bool evl_module::get_component(
     return true;
 }
 
-bool evl_modules::group(
+bool evl_top_module::group(
     evl_tokens &toks) {
 
     for(; !toks.empty();) {
@@ -447,9 +447,12 @@ void evl_module::display(
     }
 }
 
-void evl_modules::display(
+void evl_top_module::display(
     std::ostream &out) const {
 
+    evl_module::display();
+
+    out << "submodules" << modules.size() << std::endl;
     for(evl_modules_::const_iterator module = modules.begin();
         module != modules.end(); ++module) {
 
@@ -457,7 +460,7 @@ void evl_modules::display(
     }
 }
 
-bool evl_modules::store(
+bool evl_top_module::store(
     std::string file_name) const {
 
     std::ofstream output_file(file_name.c_str());

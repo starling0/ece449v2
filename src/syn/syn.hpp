@@ -18,10 +18,8 @@ public:
         : name(n), width(w) {}
 
     std::string get_name() const { return name; }
-    void set_name(std::string new_name) { name = new_name; }
 
     int get_width() const { return width; }
-    void set_width(int new_width) { width = new_width; }
 
     ~evl_wire() {}
 }; // evl_wire class
@@ -77,14 +75,28 @@ public:
 
 typedef std::list<evl_component> evl_components;
 
-struct evl_module {
+class evl_module {
     typedef std::map<std::string, int> evl_wires_table;
     std::string name;
     evl_wires wires;
     evl_components components;
     evl_wires_table wires_table;
 
+protected:
     bool add_wire_to_table(const evl_wire &w);
+
+    bool get_module_name(
+        evl_tokens &t
+    );
+
+    bool get_wires(
+        evl_tokens &t
+    );
+
+    bool get_component(
+        evl_tokens &t
+    );
+
 public:
     evl_module() {}
 
@@ -105,18 +117,6 @@ public:
 
     evl_wires_table get_wires_table() const { return wires_table; }
 
-    bool get_module_name(
-        evl_tokens &t
-    );
-
-    bool get_wires(
-        evl_tokens &t
-    );
-
-    bool get_component(
-        evl_tokens &t
-    );
-
     void display(
         std::ostream &out
     ) const;
@@ -124,13 +124,11 @@ public:
     ~evl_module() {}
 }; // evl_module class
 
-class evl_modules{
+class evl_top_module : public evl_module{
     typedef std::list<evl_module> evl_modules_;
     evl_modules_ modules;
 public:
-    evl_modules() {}
-
-    evl_module front() { return modules.front(); }
+    evl_top_module() {}
 
     bool group(
         evl_tokens &tokens
