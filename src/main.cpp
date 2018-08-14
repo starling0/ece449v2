@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
     //std::cout << "Storing Complete..." << std::endl;
 
     //std::cout << "Oganizing Statements into Modules..." << std::endl;
-    evl_modules mods;
+    evl_top_module mods;
     if(!mods.group(tokens)) {
         return -1;
     }

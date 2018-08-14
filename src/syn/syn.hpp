@@ -142,7 +142,7 @@ public:
         std::string file_name
     ) const;
 
-    ~evl_modules() {}
+    ~evl_top_module() {}
 };
 
 #endif
