@@ -1,3 +1,5 @@
+module 
+submodules1
 module top
 wires 3
   wire s0 1

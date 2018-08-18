@@ -1,3 +1,19 @@
 module top;
 
+   wire s0, s1, clk;
+
+   dff_not struct(s0, s1, clk);
+
+   evl_output out(s0, s1);
+
+endmodule
+
+module dff_not(i0, i1, i2);
+
+   evl_clock(clk);
+
+   evldff(s0, s1, clk);
+
+   not(s1, s0);
+
 endmodule

@@ -4,7 +4,7 @@
 #include <list>
 
 #include "lex/lex.hpp"
-#include "syn/syn.hpp"
+#include "syn/module.hpp"
 //#include "net.h"
 
 #define CONSOLE std::cout
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
     //std::cout << "Storing Complete..." << std::endl;
 
     //std::cout << "Oganizing Statements into Modules..." << std::endl;
-    evl_top_module mods;
+    evl_module mods;
     if(!mods.group(tokens)) {
         return -1;
     }

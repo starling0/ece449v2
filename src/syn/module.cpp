@@ -8,7 +8,9 @@
 #include <cstring>
 
 #include "../lex/lex.hpp"
-#include "syn.hpp"
+#include "wire/wire.hpp"
+#include "component/component.hpp"
+#include "module.hpp"
 
 bool evl_module::get_module_name(
     evl_tokens &t) {
@@ -51,7 +53,7 @@ bool evl_module::add_wire_to_table(
 bool evl_module::get_wires(
     evl_tokens &t) {
 
-    //std::cout << "getting wires..." << std::endl;
+    std::cout << "getting wires..." << std::endl;
 
     enum state_type {
         INIT, WIRE, DONE, WIRES, NAME, BUS_BEGIN,
@@ -353,7 +355,7 @@ bool evl_module::get_component(
     return true;
 }
 
-bool evl_top_module::group(
+bool evl_module::group(
     evl_tokens &toks) {
 
     for(; !toks.empty();) {
@@ -394,7 +396,7 @@ bool evl_top_module::group(
 
         if((!toks.empty()) && (toks.front().get_str() == "endmodule")) {
             toks.pop_front();
-            modules.push_back(module);
+            //modules.push_back(module);
         } else {
             std::cerr << "ENDMODULE expected" << std::endl;
             return false;
@@ -403,64 +405,29 @@ bool evl_top_module::group(
     return true;
 }
 
-void evl_component::display(
-    std::ostream &out) const {
-
-    out << "  component " << type << " ";
-    if(name != "") {
-        out << name << " ";
-    }
-    out << pins.size()  << std::endl;
-    for(evl_pins::const_iterator pin = pins.begin();
-        pin != pins.end(); ++pin) {
-            out << "    pin " << pin->get_name();
-        if(pin->get_msb() != -1) {
-            out << " " << pin->get_msb();
-        }
-        if(pin->get_lsb() != -1) {
-            out << " " << pin->get_lsb();
-        }
-            out << std::endl;
-        }
-}
-
 void evl_module::display(
     std::ostream &out) const {
 
     out << "module " << name << std::endl;
     if(!wires.empty()) {
         out << "wires " << wires.size() << std::endl;
-        for_each(wires.begin(), wires.end(),
+        for_each(wires_begin(), wires_end(),
             [&](evl_wire w) {
-                out << "  wire " << w.get_name() << " "
-                    << w.get_width() << std::endl;
+                w.display(out);
             }
         );
     }
     if(!components.empty()) {
         out << "components " << components.size() << std::endl;
-        for(evl_components::const_iterator component = components.begin();
-            component != components.end(); ++component) {
-
-            component->display(out);
-        }
+        for_each(components_begin(), components_end(),
+            [&](evl_component c) {
+                c.display(out);
+            }
+        );
     }
 }
 
-void evl_top_module::display(
-    std::ostream &out) const {
-
-    evl_module::display();
-
-    out << "submodules" << modules.size() << std::endl;
-    for(evl_modules_::const_iterator module = modules.begin();
-        module != modules.end(); ++module) {
-
-        module->display(out);
-    }
-}
-
-bool evl_top_module::store(
+bool evl_module::store(
     std::string file_name) const {
 
     std::ofstream output_file(file_name.c_str());

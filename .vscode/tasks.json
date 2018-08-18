@@ -8,7 +8,15 @@
             "type": "shell",
             "command": "g++",
             "args": [
-                "src/main.cpp", "src/lex/*", "src/syn/*", "-Wall", "-std=c++11", "-O2", "-lm", "-o", "myeval"
+                "src/main.cpp",
+                "src/lex/*",
+                "src/syn/module.cpp",
+                "src/syn/module.hpp",
+                "src/syn/wire/*",
+                "src/syn/component/component.cpp",
+                "src/syn/component/component.hpp",
+                "src/syn/component/pin/*",
+                "-Wall", "-std=c++11", "-O2", "-lm", "-o", "myeval"
             ],
             "group": {
                 "kind": "build",
